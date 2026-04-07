@@ -1,0 +1,69 @@
+{
+  "info": {
+    "name": "Equipo 5 - Shipping Service",
+    "description": "Coleccion base para probar endpoints del microservicio de envios.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Dispatch Shipment (POST)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"order_id\": 1001,\n  \"payment_id\": 7001,\n  \"user_id\": 501,\n  \"courier\": \"DHL\"\n}"
+        },
+        "url": {
+          "raw": "{{shipping_base_url}}/api/shipping/dispatch/",
+          "host": [
+            "{{shipping_base_url}}"
+          ],
+          "path": [
+            "api",
+            "shipping",
+            "dispatch",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Track Shipment (GET)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{shipping_base_url}}/api/shipping/track/{{tracking_id}}/",
+          "host": [
+            "{{shipping_base_url}}"
+          ],
+          "path": [
+            "api",
+            "shipping",
+            "track",
+            "{{tracking_id}}",
+            ""
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "shipping_base_url",
+      "value": "http://127.0.0.1:8005"
+    },
+    {
+      "key": "tracking_id",
+      "value": "TRACKING12345678"
+    }
+  ]
+}

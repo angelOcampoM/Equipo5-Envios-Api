@@ -157,11 +157,15 @@ Rama: `feature/aidee-testing-postman`
 - Script local de validacion (test + lint basico).
 - Entregable: evidencia de calidad y criterios de aceptacion.
 
+Artefactos actuales de calidad:
+- Postman: `docs/postman/equipo5-shipping.postman_collection.json`
+- Script de validacion local: `scripts/check.sh`
+
 ## 7) Flujo de ramas recomendado
 
-1. `master` (base estable inicial).
+1. `main` (base estable inicial).
 2. Crear 4 ramas feature (una por integrante).
-3. Cada integrante abre Pull Request contra `develop` (si crean `develop`) o `master`.
+3. Cada integrante abre Pull Request contra `main` (o contra `develop` solo si el equipo decide usarlo formalmente).
 4. Revisiones cruzadas minimas: 1 aprobacion por PR.
 5. Merge sin romper tests ni contratos JSON.
 
@@ -175,8 +179,10 @@ Ramas oficiales del equipo:
 
 1. Instalar dependencias en Python del sistema:
 ```bash
-python3 -m pip install --user -r requirements.txt
+python3 -m pip install --user --break-system-packages -r requirements.txt
 ```
+
+Nota para macOS/Homebrew Python: el flag `--break-system-packages` evita el bloqueo de instalacion por PEP 668 cuando no se usa entorno virtual.
 
 2. Configurar variables de entorno:
 ```bash
@@ -195,6 +201,11 @@ python3 manage.py runserver 8005
 
 5. Documentacion Swagger:
 - `http://127.0.0.1:8005/api/docs/`
+
+6. Validar antes de abrir Pull Request:
+```bash
+bash scripts/check.sh
+```
 
 ## 9) Checklist de Fase 1 (antes de codificar mas)
 

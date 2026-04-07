@@ -7,7 +7,7 @@ from rest_framework.test import APITestCase
 from apps.shipping.models import Shipment
 
 
-class ShippingDispatchAPITests(APITestCase):
+class TestShippingDispatchAPITests(APITestCase):
     def setUp(self):
         self.dispatch_url = reverse("dispatch-shipment")
         self.payload = {
@@ -91,7 +91,7 @@ class ShippingDispatchAPITests(APITestCase):
         mock_patch_status.assert_not_called()
 
 
-class ShippingTrackAPITests(APITestCase):
+class TestShippingTrackAPITests(APITestCase):
     def test_track_returns_shipment(self):
         shipment = Shipment.objects.create(
             order_id=2001,
