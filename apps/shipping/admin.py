@@ -17,4 +17,6 @@ class ShipmentAdmin(admin.ModelAdmin):
         "created_at",
     )
     search_fields = ("tracking_guide", "order_id", "payment_id", "user_id")
-    list_filter = ("status", "courier")
+    list_filter = ("status", "courier", "created_at")
+    date_hierarchy = "created_at"
+    readonly_fields = ("tracking_guide", "created_at", "updated_at")
