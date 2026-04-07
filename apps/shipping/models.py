@@ -1,6 +1,7 @@
 import uuid
 from datetime import timedelta
 
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
 
@@ -29,6 +30,25 @@ class Shipment(models.Model):
 
     class Meta:
         ordering = ["-created_at"]
+        constraints = [
+            models.CheckConstraint(check=models.Q(order_id__gt=0), name="shipping_order_id_gt_0"),
+            models.CheckConstraint(check=models.Q(payment_id__gt=0), name="shipping_payment_id_gt_0"),
+            models.CheckConstraint(check=models.Q(user_id__gt=0), name="shipping_user_id_gt_0"),
+            models.UniqueConstraint(fields=["order_id"], name="unique_shipment_per_order")
+        ]
+
+    def clean(self):
+        super().clean()
+        if not self.delivery_address or len(self.delivery_address.strip()) == 0:
+            raise ValidationError({"delivery_address": "La direccion de entrega no puede estar vacia."})
+        
+        # Validar que si es un nuevo registro, la entrega no sea en el pasado.
+        if self._state.adding and self.estimated_delivery_date and self.estimated_delivery_date < timezone.now().date():
+            raise ValidationError({"estimated_delivery_date": "La fecha estimada de entrega no puede ser en el pasado."})
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
 
     def __str__(self) -> str:
         return f"Shipment(order={self.order_id}, guide={self.tracking_guide})"
